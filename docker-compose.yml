@@ -1,0 +1,39 @@
+version: '3.8'
+
+networks:
+  monitoring:
+    driver: bridge
+
+services:
+  web:
+    build: app
+    container_name: web
+    ports:
+      - 5001:5001
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v2.41.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config.yml:/etc/prometheus/prometheus.yml
+#      - ./prometheus:/etc/prometheus
+    ports:
+      - 9090:9090
+    restart: always
+    networks:
+      - monitoring
+    depends_on:
+      - web
+
+  grafana:
+    image: grafana/grafana:9.3.2
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: always
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus

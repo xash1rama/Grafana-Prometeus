@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "random_requests_dashboard",
+    "title": "Dashboard for /random Route Requests",
+    "tags": [],
+    "timezone": "browser",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Count of /random Requests with 200 Status",
+        "datasource": {
+          "type": "Prometheus",
+          "uid": "YOUR_PROMETHEUS_DATASOURCE_UID"
+        },
+        "targets": [
+          {
+            "expr": "cnt_random{collection='random', status='true'}",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "legendFormat": "{{status}} requests",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "lines": true,
+        "fill"  : 1,
+        "linewidth": 2,
+        "fillOpacity": 0.7
+      }
+    ]
+  },
+  "overwrite": true
+}
